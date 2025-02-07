@@ -1,0 +1,10 @@
+{
+  "/archive": {
+    "target": "https://archive.org",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+    
+  }
+  
+}

@@ -1,0 +1,20 @@
+<div class="lectores-container">
+    <h2>Administrar Lectores2</h2>
+    <div class="form-group">
+      <input [(ngModel)]="nuevoLector.NombreUsuario" placeholder="Nombre de Usuario" />
+      <input [(ngModel)]="nuevoLector.Contrasena" placeholder="Contraseña" type="password" />
+      <input [(ngModel)]="nuevoLector.NombreCompleto" placeholder="Nombre Completo" />
+      <input [(ngModel)]="nuevoLector.Correo" placeholder="Correo" />
+      <button (click)="agregarLector()">Agregar Lector</button>
+    </div>
+    <ul>
+      <li *ngFor="let lector of lectores">
+        <input [(ngModel)]="lector.NombreUsuario" />
+        <input [(ngModel)]="lector.Contrasena" type="password" />
+        <input [(ngModel)]="lector.NombreCompleto" />
+        <input [(ngModel)]="lector.Correo" />
+        <button (click)="editarLector(lector)">Guardar</button>
+        <button (click)="eliminarLector(lector.IdLector)">Eliminar</button>
+      </li>
+    </ul>
+  </div>
