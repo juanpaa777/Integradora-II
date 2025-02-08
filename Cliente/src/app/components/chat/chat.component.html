@@ -1,0 +1,17 @@
+<div class="chat-container">
+  <div class="chat-header">Chat de Asistencia</div>
+  <div class="chat-messages">
+    <div *ngFor="let message of messages" [ngClass]="{'user-message': message.from === 'user', 'bot-message': message.from === 'bot'}">
+      {{ message.text }}
+    </div>
+  </div>
+  <input [(ngModel)]="userMessage" placeholder="Escribe tu mensaje" />
+  <button (click)="sendMessage()">Enviar</button>
+
+  <!-- Mostrar opciones si están disponibles -->
+  <div *ngIf="options.length > 0" class="options-container">
+    <div *ngFor="let option of options" class="option" (click)="selectOption(option)">
+      {{ option }}
+    </div>
+  </div>
+</div>
