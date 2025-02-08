@@ -1,32 +1,27 @@
-  <div class="container">
-    <h1 class="form-title">Registrar Nuevo Bibliotecario</h1>
+<div class="form-container">
+  <h2>Registro de Bibliotecarios</h2>
+  <form (ngSubmit)="saveBibliotecario()">
     <div class="form-group">
-      <label for="NombreBibliotecario">Nombre del Bibliotecario</label>
-      <input type="text" id="NombreCompleto" placeholder="Nombre del Bibliotecario" maxlength="50" [(ngModel)]="NombreCompleto">
-      <mat-icon routerLink="/bibliotecario"></mat-icon>
-    </div>
-    <div class="form-group">
-      <label for="Correo">Correo Electronico</label>
-      <input type="text" id="Correo" placeholder="Correo" maxlength="100" [(ngModel)]="Correo">
-      <mat-icon routerLink="/bibliotecario"></mat-icon>
+      <label for="nombreCompleto">Nombre Completo</label>
+      <input type="text" id="nombreCompleto" [(ngModel)]="NombreCompleto" name="nombreCompleto" required>
     </div>
     <div class="form-group">
-      <label for="Numero">Número Telefónico</label>
-      <input type="text" id="Telefono" placeholder="Número Telefónico" maxlength="15" [(ngModel)]="Telefono">
-      <mat-icon routerLink="/bibliotecario"></mat-icon>
+      <label for="correo">Correo Electrónico</label>
+      <input type="email" id="correo" [(ngModel)]="Correo" name="correo" required>
     </div>
     <div class="form-group">
-      <label for="Usuario">Usuario</label>
-      <input type="text" id="NombreUsuario" placeholder="Usuario" maxlength="50" [(ngModel)]="NombreUsuario">
-      <mat-icon routerLink="/bibliotecario"></mat-icon>
+      <label for="telefono">Teléfono</label>
+      <input type="tel" id="telefono" [(ngModel)]="Telefono" name="telefono" required>
     </div>
     <div class="form-group">
-      <label for="Contrasena">Contraseña</label>
-      <input type="password" id="Contrasena" placeholder="Contraseña" maxlength="255" [(ngModel)]="Contrasena">
-      <mat-icon routerLink="/bibliotecario"></mat-icon>
+      <label for="nombreUsuario">Nombre de Usuario</label>
+      <input type="text" id="nombreUsuario" [(ngModel)]="NombreUsuario" name="nombreUsuario" required>
     </div>
-    <div class="buttons">
-      <button (click)="confirmCancel()">Cancelar</button>
-      <button (click)="saveBibliotecario()">Guardar</button>
+    <div class="form-group">
+      <label for="contrasena">Contraseña</label>
+      <input type="password" id="contrasena" [(ngModel)]="Contrasena" name="contrasena" required>
     </div>
-  </div>
+    <button type="submit" class="btn-submit">Registrar</button>
+    <button type="button" (click)="confirmCancel()" class="btn-cancel">Cancelar</button>
+  </form>
+</div>

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AuthDiscordService } from '../home/login/AuthDiscordService.service';
 import { DailyApiService } from '../menu/Options/daily-api.service';
 import { NavigationService } from '../../services/navigation.service';
+import { UserService } from '../home/login2/user.service';
 
 @Component({
   selector: 'app-menu',
@@ -29,7 +30,6 @@ export class MenuComponent implements OnInit, OnDestroy {
   isArchiveVisible = false;
   noticiasItems: any[] = [];
   private intervalId: any;
-  userProfile: any;
   showUserDetails = false;
   userGuilds: any[] = [];
   showPayPal = false;
@@ -40,18 +40,15 @@ export class MenuComponent implements OnInit, OnDestroy {
   showAdminLectores = false; // Propiedad para el componente de administración de lectores
   showLectores: boolean | undefined;
   showChatComponent = false; // Propiedad para controlar la visibilidad del chat
+  userProfile: { username: string; email: string } | null = null; // Asegúrate de que esta propiedad esté definida
 
-  constructor(private sidebarService: SidebarService, private http: HttpClient, private router: Router, private authDiscordService: AuthDiscordService, private dailyApiService: DailyApiService, private navigationService: NavigationService) {
+  constructor(private sidebarService: SidebarService, private http: HttpClient, private router: Router, private authDiscordService: AuthDiscordService, private dailyApiService: DailyApiService, private navigationService: NavigationService, private userService: UserService) {
     this.sidebarService.sidebarHidden$.subscribe(hidden => this.isSidebarHidden = hidden);
     this.dailyApiService.conferenceVisible$.subscribe(visible => this.showConferencia = visible);
     this.navigationService.setMenuComponent(this);
-  }
-
-  ngOnInit() {
-    this.cargarNoticias();
-    this.iniciarDesplazamiento();
-    this.authDiscordService.userProfile$.subscribe(profile => {
+    this.userService.currentUserProfile.subscribe(profile => {
       this.userProfile = profile;
+      console.log('Perfil del usuario:', this.userProfile);
       if (profile) {
         console.log('Perfil recibido en el componente:', profile);
         this.fetchUserGuilds();
@@ -62,6 +59,11 @@ export class MenuComponent implements OnInit, OnDestroy {
     // Mostrar solo la vista de inicio al iniciar sesión
     this.resetViews();
     this.showNoticias = true;
+  }
+
+  ngOnInit() {
+    this.cargarNoticias();
+    this.iniciarDesplazamiento();
   }
 
   ngOnDestroy() {
@@ -247,5 +249,15 @@ export class MenuComponent implements OnInit, OnDestroy {
   toggleChat() {
     this.resetViews(); // Ocultar todas las demás vistas
     this.showChatComponent = true; // Mostrar el componente de chat
+  }
+
+  verPerfil() {
+    if (this.userProfile) {
+      // Redirigir a la página de perfil
+      this.router.navigate(['/perfil']);
+    } else {
+      console.error('No se pudo acceder al perfil del usuario. userProfile es null.');
+      alert('No se pudo acceder al perfil del usuario. Por favor, intenta iniciar sesión nuevamente.');
+    }
   }
 }
