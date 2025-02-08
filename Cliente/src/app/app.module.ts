@@ -43,6 +43,7 @@ import { Login2Component } from './components/home/login2/login2.component';
 import { RouterModule } from '@angular/router';
 import { Lectores2Component } from './components/menu/Options/lectores2/lectores2.component';
 import { TokenModalComponent } from './components/menu/Options/token-modal/token-modal.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 
 @NgModule({
@@ -74,6 +75,7 @@ import { TokenModalComponent } from './components/menu/Options/token-modal/token
     Login2Component,
     Lectores2Component,
     TokenModalComponent,
+    ChatComponent,
   
 
   ],

@@ -76,6 +76,7 @@
         <li *ngIf="userRole === 'bibliotecario'"><a (click)="showTwilioComponent()">Enviar Mensaje por WhatsApp</a></li>
         <li *ngIf="userRole === 'bibliotecario'"><a (click)="iniciarConferencia()">Iniciar Conferencia</a></li>
         <li *ngIf="userRole === 'bibliotecario' || userRole === 'lector'"><a (click)="verEventosCercanos()">Ver Eventos Cercanos</a></li>
+        <li><a (click)="toggleChat()">Chat de Asistencia</a></li>
       </ul>
     </div>
 
@@ -130,8 +131,13 @@
       <div *ngIf="showConferencia">
         <app-conferencia></app-conferencia>
       </div>
-  
+      <app-chat *ngIf="showChatComponent"></app-chat>
     </div>
+  </div>
+
+  <!-- Ícono de chat en la esquina inferior derecha -->
+  <div class="chat-icon" (click)="toggleChat()">
+    <mat-icon>chat</mat-icon> <!-- Asegúrate de tener Angular Material instalado -->
   </div>
 
   <footer class="footer">

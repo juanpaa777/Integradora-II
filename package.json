@@ -2,6 +2,7 @@
   "dependencies": {
     "@daily-co/daily-js": "^0.73.0",
     "angular-oauth2-oidc": "^17.0.2",
+    "dialogflow": "^1.2.0",
     "googleapis": "^144.0.0",
     "jsonwebtoken": "^9.0.2",
     "supertokens-auth-react": "^0.48.0"

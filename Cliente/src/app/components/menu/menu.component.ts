@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthDiscordService } from '../home/login/AuthDiscordService.service';
 import { DailyApiService } from '../menu/Options/daily-api.service';
+import { NavigationService } from '../../services/navigation.service';
 
 @Component({
   selector: 'app-menu',
@@ -38,10 +39,12 @@ export class MenuComponent implements OnInit, OnDestroy {
   userRole: string | null = null;
   showAdminLectores = false; // Propiedad para el componente de administración de lectores
   showLectores: boolean | undefined;
+  showChatComponent = false; // Propiedad para controlar la visibilidad del chat
 
-  constructor(private sidebarService: SidebarService, private http: HttpClient, private router: Router, private authDiscordService: AuthDiscordService, private dailyApiService: DailyApiService) {
+  constructor(private sidebarService: SidebarService, private http: HttpClient, private router: Router, private authDiscordService: AuthDiscordService, private dailyApiService: DailyApiService, private navigationService: NavigationService) {
     this.sidebarService.sidebarHidden$.subscribe(hidden => this.isSidebarHidden = hidden);
     this.dailyApiService.conferenceVisible$.subscribe(visible => this.showConferencia = visible);
+    this.navigationService.setMenuComponent(this);
   }
 
   ngOnInit() {
@@ -158,7 +161,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.showTwilio = true;
   }
 
-  private resetViews() {
+  public resetViews() {
     this.showNoticias = false;
     this.showSearch = false;
     this.showNewBooks = false;
@@ -174,6 +177,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.showConferencia = false;
     this.showGoogleSearchComponent = false;
     this.showAdminLectores = false; // Resetear la vista de administración de lectores
+    this.showChatComponent = false; // Resetear la vista del chat
   }
 
   @HostListener('window:scroll', [])
@@ -238,5 +242,10 @@ export class MenuComponent implements OnInit, OnDestroy {
   showGoogleSearch() {
     this.resetViews();
     this.showGoogleSearchComponent = true;
+  }
+
+  toggleChat() {
+    this.resetViews(); // Ocultar todas las demás vistas
+    this.showChatComponent = true; // Mostrar el componente de chat
   }
 }
