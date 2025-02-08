@@ -4,7 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthGoogleService } from '../login/auth-google.service'; // Importar el servicio de Google
 import { AuthDiscordService } from '../login/AuthDiscordService.service'; // Importar el servicio de Discord
-import { TokenModalComponent } from '../../menu/Options/token-modal/token-modal.component'; 
+import { TokenModalComponent } from '../../menu/Options/token-modal/token-modal.component';
+import { UserService } from './user.service'; // Asegúrate de importar el servicio
 
 @Component({
   selector: 'app-login2',
@@ -15,6 +16,7 @@ export class Login2Component {
   username: string = '';
   password: string = '';
   token: string | null = null; // Variable para almacenar el token
+  userProfile: { username: string; email: string } | null = null; // Declarar userProfile
 
   constructor(
     private http: HttpClient,
@@ -22,20 +24,30 @@ export class Login2Component {
     public activeModal: NgbActiveModal,
     private authGoogleService: AuthGoogleService,
     private authDiscordService: AuthDiscordService,
-    private modalService: NgbModal // Inyectar el servicio de modal
+    private modalService: NgbModal, // Inyectar el servicio de modal
+    private userService: UserService // Inyectar el servicio
   ) {}
 
   onSubmit() {
     const loginData = { username: this.username, password: this.password };
     console.log('Enviando datos de inicio de sesión:', loginData);
-
+  
     this.http.post<any>('http://localhost:3000/api/login2', loginData).subscribe(
       response => {
         console.log('Respuesta recibida:', response);
         if (response.success) {
-          this.token = response.token; //almacenar el token en la variable token
+          this.token = response.token; // almacenar el token en la variable token
           localStorage.setItem('token', response.token);
           localStorage.setItem('userRole', response.role);
+          
+          // Almacenar la información del usuario
+          this.userProfile = response.user; // Almacenar el nombre de usuario y el email
+          
+          // Verificar si userProfile no es null antes de actualizar
+          if (this.userProfile) {
+            this.userService.updateUserProfile(this.userProfile); // Actualizar el perfil del usuario en el servicio
+          }
+          
           this.activeModal.close();
           this.openTokenModal();
           this.router.navigate(['/menu']);

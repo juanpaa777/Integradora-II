@@ -41,6 +41,10 @@
             <h3>Token JWT Generado:</h3>
             <pre>{{ token }}</pre>
           </div>
+          <div *ngIf="userProfile">
+            <h3>Bienvenido, {{ userProfile.username }}!</h3>
+            <p>Email: {{ userProfile.email }}</p>
+          </div>
         </div>
       </div>
     </div>

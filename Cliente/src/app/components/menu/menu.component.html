@@ -42,9 +42,10 @@
         </button>
         <mat-menu #menu="matMenu">
           <div *ngIf="userProfile" class="user-profile" (click)="openUserDetails()">
-            <img [src]="'https://cdn.discordapp.com/avatars/' + userProfile.id + '/' + userProfile.avatar + '.png'" alt="Avatar" class="avatar">
             <div class="user-info">
               <p class="username">{{ userProfile.username }}</p>
+              <p class="email">{{ userProfile.email }}</p>
+              <button (click)="verPerfil()">Ver Perfil</button>
             </div>
           </div>
           <button mat-menu-item (click)="logout()">
@@ -59,6 +60,7 @@
 
   <div class="main-layout">
     <div class="sidebar" id="sidebar" [ngClass]="{'hidden': isSidebarHidden}">
+      <h2>Menú</h2>
       <ul>
         <li *ngIf="userRole === 'bibliotecario' || userRole === 'lector'"><a (click)="showCarruselNoticias()">Inicio</a></li>
         <li *ngIf="userRole === 'bibliotecario' || userRole === 'lector'"><a (click)="showSearchBooks()">Buscar Libros</a></li>
@@ -77,6 +79,7 @@
         <li *ngIf="userRole === 'bibliotecario'"><a (click)="iniciarConferencia()">Iniciar Conferencia</a></li>
         <li *ngIf="userRole === 'bibliotecario' || userRole === 'lector'"><a (click)="verEventosCercanos()">Ver Eventos Cercanos</a></li>
         <li><a (click)="toggleChat()">Chat de Asistencia</a></li>
+        <li><button (click)="verPerfil()">Ver Perfil</button></li>
       </ul>
     </div>
 
@@ -151,17 +154,11 @@
     <div class="modal-content">
       <span class="close" (click)="closeUserDetails()">&times;</span>
       <h2>Detalles del Usuario</h2>
-      <p><strong>Nombre:</strong> {{ userProfile.username }}</p>
-      <p><strong>Email:</strong> {{ userProfile.email }}</p>
-      <p><strong>Idioma:</strong> {{ userProfile.locale }}</p> <!-- Muestra el idioma del usuario -->
-      <p><strong>Servidores:</strong></p>
-      <ul>
-        <li *ngFor="let guild of userGuilds">{{ guild.name }}</li>
-      </ul>
-      <p><strong>Conexiones:</strong></p>
-      <ul>
-        <li *ngFor="let connection of userProfile.connections">{{ connection.type }}: {{ connection.name }}</li>
-      </ul>
+      <div *ngIf="userProfile">
+        <p><strong>Nombre:</strong> {{ userProfile.username }}</p>
+        <p><strong>Email:</strong> {{ userProfile.email }}</p>
+        <button (click)="verPerfil()">Ver Perfil</button>
+      </div>
     </div>
   </div>
 </body>

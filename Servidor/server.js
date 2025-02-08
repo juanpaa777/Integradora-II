@@ -136,6 +136,7 @@ app.post('/api/login2', (req, res) => {
   const { username, password } = req.body;
   console.log('Intentando iniciar sesión con:', username);
 
+  // Verificar en la tabla Lector2
   pool.query('SELECT * FROM Lector2 WHERE NombreUsuario = ?', [username], (err, lectorResults) => {
     if (err) {
       console.error('Error durante la consulta:', err);
@@ -144,20 +145,13 @@ app.post('/api/login2', (req, res) => {
 
     if (lectorResults.length > 0) {
       const lector = lectorResults[0];
-      console.log('Usuario lector encontrado:', lector);
       if (password === lector.Contrasena) {
-        const role = 'lector';
-        const permissions = rolePermissions[role];
-        const token = jwt.sign({ id: lector.IdLector, role, permissions }, 'JWT-1234567890', { expiresIn: '1h' });
-        console.log('Token generado para lector:', token);
-        return res.json({ success: true, token, role });
-      } else {
-        console.log('Contraseña incorrecta para lector');
+        const token = jwt.sign({ id: lector.IdLector, role: 'lector' }, 'JWT-1234567890', { expiresIn: '1h' });
+        return res.json({ success: true, token, user: { username: lector.NombreUsuario, email: lector.Correo } }); // Devuelve el nombre de usuario y el email
       }
-    } else {
-      console.log('Usuario lector no encontrado');
     }
 
+    // Verificar en Bibliotecario
     pool.query('SELECT * FROM Bibliotecario WHERE NombreUsuario = ?', [username], (err, bibliotecarioResults) => {
       if (err) {
         console.error('Error durante la consulta:', err);
@@ -166,26 +160,16 @@ app.post('/api/login2', (req, res) => {
 
       if (bibliotecarioResults.length > 0) {
         const bibliotecario = bibliotecarioResults[0];
-        console.log('Usuario bibliotecario encontrado:', bibliotecario);
         if (bcrypt.compareSync(password, bibliotecario.Contrasena)) {
-          const role = 'bibliotecario';
-          const permissions = rolePermissions[role];
-          const token = jwt.sign({ id: bibliotecario.IdBibliotecario, role, permissions }, 'tu_secreto', { expiresIn: '1h' });
-          console.log('Token generado para bibliotecario:', token);
-          return res.json({ success: true, token, role });
-        } else {
-          console.log('Contraseña incorrecta para bibliotecario');
+          const token = jwt.sign({ id: bibliotecario.IdBibliotecario, role: 'bibliotecario' }, 'tu_secreto', { expiresIn: '1h' });
+          return res.json({ success: true, token, user: { username: bibliotecario.NombreUsuario, email: bibliotecario.Correo } }); // Devuelve el nombre de usuario y el email
         }
-      } else {
-        console.log('Usuario bibliotecario no encontrado');
       }
 
-      console.log('Nombre de usuario o contraseña incorrectos');
       return res.status(401).json({ success: false, message: 'Nombre de usuario o contraseña incorrectos' });
     });
   });
 });
-
 
 
 

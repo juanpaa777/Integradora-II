@@ -44,6 +44,7 @@ import { RouterModule } from '@angular/router';
 import { Lectores2Component } from './components/menu/Options/lectores2/lectores2.component';
 import { TokenModalComponent } from './components/menu/Options/token-modal/token-modal.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
 
 
 @NgModule({
@@ -76,6 +77,7 @@ import { ChatComponent } from './components/chat/chat.component';
     Lectores2Component,
     TokenModalComponent,
     ChatComponent,
+    PerfilComponent,
   
 
   ],
